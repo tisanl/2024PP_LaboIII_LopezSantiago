@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="Vehiculo.js"></script>
+    <script src="Aereo.js"></script>
+    <script src="Terrestre.js"></script>
+    <script src="stringJson.js"></script>
+    <script src="GrupoVehiculos.js"></script>
+    <script src="TablaVehiculos.js"></script>
+    <script src="form_datos.js"></script>
+    <script src="form_abm.js"></script>
+    <script src="auxiliares.js"></script>
+</head>
+<body>
+    <!-- Titulo -->
+    <h2>Registro de Vehiculos</h2>
+
+    <!-- Seccion donde se mostrara el formulario form datos principal -->
+    <div class="form_datos" id="form_datos">
+        <!-- Select de el tipo de vehiculo que se quiere filtrar -->
+        <label for="sel_filtrar_tipo">Filtrar por </label>
+        <select id="sel_filtrar_tipo" name="filtro">
+            <option value="0">Todos</option>
+            <option value="1">Aereo</option>
+            <option value="2">Terrestre</option>            
+        </select><br><br>
+
+        <!-- Seccion donde se pone los cheks que determinaran las columnas que se mostraran -->
+        <div class="contenedor_checks">
+            <div class="grid_element" id="div1"> <label class="lbl_grid">MOSTRAR COLUMNAS</label> </div>
+            <div class="grid_element" id="div2"> <label class="lbl_grid">ID</label> </div>
+            <div class="grid_element" id="div3"> <input type="checkbox" id="chk_vehiculo_id" checked> </div>
+            <div class="grid_element" id="div4"> <label class="lbl_grid">Modelo</label> </div>
+            <div class="grid_element" id="div5"> <input type="checkbox" id="chk_vehiculo_modelo" checked> </div>
+            <div class="grid_element" id="div6"> <label class="lbl_grid">Año de Fabricacion</label> </div>
+            <div class="grid_element" id="div7"> <input type="checkbox" id="chk_vehiculo_anoFab" checked> </div>
+            <div class="grid_element" id="div8"> <label class="lbl_grid">Velocidad Maxima</label> </div>
+            <div class="grid_element" id="div9"> <input type="checkbox" id="chk_vehiculo_velMax" checked> </div>
+            <div class="grid_element" id="div10"> <label class="lbl_grid">Altura Maxima</label> </div>
+            <div class="grid_element" id="div11"> <input type="checkbox" id="chk_vehiculo_altMax" checked> </div>
+            <div class="grid_element" id="div12"> <label class="lbl_grid">Autonomia</label> </div>
+            <div class="grid_element" id="div13"> <input type="checkbox" id="chk_vehiculo_autonomia" checked> </div>
+            <div class="grid_element" id="div14"> <label class="lbl_grid">Cantidad de Puertas</label> </div>
+            <div class="grid_element" id="div15"> <input type="checkbox" id="chk_vehiculo_cantPue" checked> </div>
+            <div class="grid_element" id="div16"> <label class="lbl_grid">Cantidad de Ruedas</label> </div>
+            <div class="grid_element" id="div17"> <input type="checkbox" id="chk_vehiculo_cantRue" checked> </div>
+        </div><br>
+
+        <!-- Tabla donde se mostraran los elementos de la jerarquia de clases -->
+        <table class="tabla_vehiculos" id="tabla_vehiculos">
+            <thead id="tabla_vehiculos_header"></thead>
+            <tbody id="tabla_vehiculos_body"></tbody>
+        </table><br>
+
+        <!-- Boton para agregar un elemento a la jerarquia -->
+        <button class="agregar_vehiculo" id="agregar_vehiculo">Agregar un Vehiculo</button><br><br>
+
+        <!-- Elementos para el calculo de la velocidad maxima promedio -->
+        <label for="txt_velocidad_maxima_promedio">Calcular velocidad maxima promedio </label>
+        <input type="text" id="txt_velocidad_maxima_promedio" readonly>
+        <button class="btn_calcular_velocidad_maxima_promedio" id="btn_calcular_velocidad_maxima_promedio">Calcular</button><br><br>
+    </div>
+
+    <!-- Seccion donde se mostrara el formulario form abm -->
+    <div class="form_abm" id="form_abm">
+        <h3>Datos del Vehiculo</h3><br>
+
+        <!-- Campo Id -->
+        <label id="lbl_id" for="txt_id">Id </label>
+        <input type="text" id="txt_id" readonly><br><br>
+
+        <!-- Campo Modelo -->
+        <label id="lbl_modelo" for="txt_modelo">Modelo </label>
+        <input type="text" id="txt_modelo">
+        <label id="lbl_error_modelo"></label><br><br>
+
+        <!-- Campo Año de Fabricacion -->
+        <label id="lbl_anoFab" for="txt_anoFab">Año de Fabricacion </label>
+        <input type="text" id="txt_anoFab">
+        <label id="lbl_error_anoFab"></label><br><br>
+
+        <!-- Campo Velocidad Maxima -->
+        <label id="lbl_velMax" for="txt_velMax">Velocidad Maxima </label>
+        <input type="text" id="txt_velMax">
+        <label id="lbl_error_velMax"></label><br><br>
+
+        <!-- Select de el tipo de vehiculo -->
+        <label for="sel_tipo_vehiculo">Tipo</label>
+        <select id="sel_tipo_vehiculo" name="filtro">
+            <option value="1">Aereo</option>
+            <option value="2">Terrestre</option>            
+        </select><br><br>
+
+        <div class="campo_aereo" id="campo_aereo">
+            <!-- Campo Altura Maxima -->
+            <label id="lbl_altMax" for="txt_altMax">Altura Maxima </label>
+            <input type="text" id="txt_altMax">
+            <label id="lbl_error_altMax"></label><br><br>
+
+            <!-- Campo Autonomia -->
+            <label id="lbl_autonomia" for="txt_autonomia">Autonomia </label>
+            <input type="text" id="txt_autonomia">
+            <label id="lbl_error_autonomia"></label><br><br>   
+        </div>
+        
+        <div class="campo_terrestre" id="campo_terrestre">
+            <!-- Campo Cantidad de Puertas -->
+            <label id="lbl_cantPue" for="txt_cantPue">Cantidad de Puertas </label>
+            <input type="text" id="txt_cantPue">
+            <label id="lbl_error_cantPue"></label><br><br>
+
+            <!-- Campo Cantidad de Ruedas -->
+            <label id="lbl_cantRue" for="txt_cantRue">Cantidad de Ruedas </label>
+            <input type="text" id="txt_cantRue">
+            <label id="lbl_error_cantRue"></label><br><br>
+        </div>
+
+        <div class="contenedor_botones_form_abm">
+            <button class="btn_guardar" id="btn_guardar">Guardar</button>
+            <button class="btn_eliminar" id="btn_eliminar">Eliminar</button>
+            <button class="btn_cancelar" id="btn_cancelar">Cancelar</button>
+        </div>
+        
+    </div>
+    
+</body>
+<script>
+    //========================= Primera generacion cuando se habre la pagina ==================================//
+    // Creo el manejador del grupo de vehiculos
+    grupoVehiculos = new GrupoVehiculos(DATA)
+    
+    // Me guardo los elementos de los chek que corresponden a las columnas de la tabla para pasar por parametro
+    columnasChecked = {
+            "id" : document.getElementById("chk_vehiculo_id"),
+            "modelo" : document.getElementById("chk_vehiculo_modelo"),
+            "anoFab" : document.getElementById("chk_vehiculo_anoFab"),
+            "velMax" : document.getElementById("chk_vehiculo_velMax"),
+            "altMax" : document.getElementById("chk_vehiculo_altMax"),
+            "autonomia" : document.getElementById("chk_vehiculo_autonomia"),
+            "cantPue" : document.getElementById("chk_vehiculo_cantPue"),
+            "cantRue" : document.getElementById("chk_vehiculo_cantRue")
+        }
+
+    // Creo la tabla por primera vez y la dibujo
+    tablaVehiculos = new TablaVehiculos("tabla_vehiculos","tabla_vehiculos_header","tabla_vehiculos_body",columnasChecked)
+    tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculos)
+    
+    // Instancio el elemento del form datos
+    form_datos = new Form_datos("form_datos","sel_filtrar_tipo")
+
+    // Pongo los elementos del form am en un objeto
+    elementosFormAbm = {
+        "form" : document.getElementById("form_abm"),
+        "txt_id" : document.getElementById("txt_id"),
+        "txt_modelo" : document.getElementById("txt_modelo"),
+        "lbl_error_modelo" : document.getElementById("lbl_error_modelo"),
+        "txt_anoFab" : document.getElementById("txt_anoFab"),
+        "lbl_error_anoFab" : document.getElementById("lbl_error_anoFab"),
+        "txt_velMax" : document.getElementById("txt_velMax"),
+        "lbl_error_velMax" : document.getElementById("lbl_error_velMax"),
+        "select_tipo" : document.getElementById("sel_tipo_vehiculo"),
+        "txt_altMax" : document.getElementById("txt_altMax"),
+        "lbl_error_altMax" : document.getElementById("lbl_error_altMax"),
+        "txt_autonomia" : document.getElementById("txt_autonomia"),
+        "lbl_error_autonomia" : document.getElementById("lbl_error_autonomia"),
+        "txt_cantPue" : document.getElementById("txt_cantPue"),
+        "lbl_error_cantPue" : document.getElementById("lbl_error_cantPue"),
+        "txt_cantRue" : document.getElementById("txt_cantRue"),
+        "lbl_error_cantRue" : document.getElementById("lbl_error_cantRue"),
+        "campo_aereo" : document.getElementById("campo_aereo"),
+        "campo_terrestre" : document.getElementById("campo_terrestre"),
+        "btn_guardar" : document.getElementById("btn_guardar"),
+        "btn_eliminar" : document.getElementById("btn_eliminar"),
+        "btn_cancelar" : document.getElementById("btn_cancelar")
+    }
+    
+    // Instancio el formulario que cree 
+    form_abm = new Form_abm(elementosFormAbm)
+    form_abm.ocultar()
+    
+    //================================== Eventos del form datos ===============================================//
+    // Evento cuando se cambia el select asociado a la tabla
+    select = document.getElementById("sel_filtrar_tipo")
+    select.addEventListener("change",(event)=>{
+        txt_velocidad_maxima_promedio.value = ""
+        grupoVehiculos.filtrarLista(select.value)
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+
+    // Evento cuando se le da al boton para calcular la velMax promedio
+    btn_calcular_velocidad_maxima = document.getElementById("btn_calcular_velocidad_maxima_promedio")
+    txt_velocidad_maxima_promedio = document.getElementById("txt_velocidad_maxima_promedio")
+    btn_calcular_velocidad_maxima.addEventListener("click",(event)=>{
+        txt_velocidad_maxima_promedio.value = grupoVehiculos.calcularVelMax()
+    })
+
+    // Evento cuando se le da click al header
+    tablaVehiculos.tabla.addEventListener("click",(event)=>{
+        celda = event.target
+        fila = celda.parentNode
+        if(fila.id == "header"){
+            grupoVehiculos.sortLista(celda.innerText)
+            tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+        }
+    })
+
+    // Evento cuando se le da doble click a un elemento de la tabla
+    tablaVehiculos.tabla.addEventListener("dblclick",(event)=>{
+        celda = event.target
+        fila = celda.parentNode
+        if(fila.id != "header"){
+            form_datos.ocultar()
+            form_abm.mostrar()
+            form_abm.completarFormulario(grupoVehiculos.listaVehiculosEnUso[fila.id])
+        }
+        txt_velocidad_maxima_promedio.value = ""
+    })
+
+    // Evento para cuando se hace click en boton para agregar un vehiculo
+    btn_agregar_vehiculo = document.getElementById("agregar_vehiculo")
+    btn_agregar_vehiculo.addEventListener("click",(event)=>{
+        txt_velocidad_maxima_promedio.value = ""
+        form_datos.ocultar()
+        form_abm.mostrar()
+        form_abm.btn_eliminar.style.display = "none"
+    })
+
+    // Eventos cuando se le da a un check de la tabla para mostrar o no un resultado
+    columnasChecked.id.addEventListener("click",(event)=>{
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+
+    columnasChecked.modelo.addEventListener("click",(event)=>{
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+
+    columnasChecked.anoFab.addEventListener("click",(event)=>{
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+
+    columnasChecked.velMax.addEventListener("click",(event)=>{
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+
+    columnasChecked.altMax.addEventListener("click",(event)=>{
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+
+    columnasChecked.autonomia.addEventListener("click",(event)=>{
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+
+    columnasChecked.cantPue.addEventListener("click",(event)=>{
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+
+    columnasChecked.cantRue.addEventListener("click",(event)=>{
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculosEnUso)
+    })
+    
+    //================================== Eventos del form abm ================================================//
+    // Evento cuando se le da click a cancelar
+    form_abm.btn_cancelar.addEventListener("click",(event)=>{
+        form_abm.limpiarFormulario()
+        form_abm.ocultar()
+        form_abm.select_tipo.disabled = false
+        form_datos.mostrar()
+        form_abm.btn_eliminar.style.display = "block"
+    })
+
+    // Evento cuando se le da click a guardar
+    form_abm.btn_guardar.addEventListener("click",(event)=>{
+        datos = form_abm.validarFormulario()
+        if(datos){
+            form_abm.modificarLista(grupoVehiculos, datos)
+            form_abm.limpiarFormulario()
+            form_abm.ocultar()
+            form_datos.mostrar()
+            tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculos)
+            form_abm.btn_eliminar.style.display = "block"
+        }
+    })
+
+    // Evento cuando se le da click a eliminar
+    form_abm.btn_eliminar.addEventListener("click",(event)=>{
+        form_abm.elimnarDeLista(grupoVehiculos)
+        form_abm.limpiarFormulario()
+        form_abm.ocultar()
+        form_datos.mostrar()
+        tablaVehiculos.dibujarTabla(grupoVehiculos.listaVehiculos)
+    })
+
+    // Evento cuando se cambia el valor del select del tipo
+    form_abm.select_tipo.addEventListener("change",(event)=>{
+        if(form_abm.select_tipo.value == 1){
+            this.campo_aereo.style.display = "block"
+            this.campo_terrestre.style.display = "none"
+        }
+        else if(form_abm.select_tipo.value == 2){
+            this.campo_aereo.style.display = "none"
+            this.campo_terrestre.style.display = "block"
+        }
+    })    
+</script>
+</html>
